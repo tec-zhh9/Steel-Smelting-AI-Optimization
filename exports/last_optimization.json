@@ -1,0 +1,164 @@
+{
+  "model_id": "bp_81589d28",
+  "model_label": "BP 神经网络",
+  "dataset": "成材率_综合1000",
+  "target": "Rc",
+  "current_pred": 0.8823,
+  "optimized_pred": 0.985,
+  "improvement": 11.64,
+  "params": [
+    {
+      "param": "X31",
+      "current": 6.2377,
+      "recommended": 4.2479,
+      "direction": "下调"
+    },
+    {
+      "param": "X32",
+      "current": -1.3362,
+      "recommended": -0.9148,
+      "direction": "上调"
+    },
+    {
+      "param": "X33",
+      "current": 2.6051,
+      "recommended": 2.3237,
+      "direction": "下调"
+    },
+    {
+      "param": "X34",
+      "current": 1.1828,
+      "recommended": 1.1737,
+      "direction": "下调"
+    },
+    {
+      "param": "X35",
+      "current": 1.3712,
+      "recommended": 1.6834,
+      "direction": "上调"
+    },
+    {
+      "param": "X36",
+      "current": 0.6932,
+      "recommended": 0.7434,
+      "direction": "上调"
+    },
+    {
+      "param": "JR_加热温度",
+      "current": 1250.6508,
+      "recommended": 1173.7849,
+      "direction": "下调"
+    },
+    {
+      "param": "ZL_在炉时间",
+      "current": 1.6944,
+      "recommended": 1.0,
+      "direction": "下调"
+    },
+    {
+      "param": "KZ_开轧温度",
+      "current": 1055.5332,
+      "recommended": 970.0,
+      "direction": "下调"
+    },
+    {
+      "param": "ZZ_终轧温度",
+      "current": 890.9395,
+      "recommended": 811.8078,
+      "direction": "下调"
+    },
+    {
+      "param": "YX_总压下量",
+      "current": 0.7228,
+      "recommended": 0.6859,
+      "direction": "下调"
+    },
+    {
+      "param": "ZG_轧辊吨数",
+      "current": 6500.126,
+      "recommended": 4541.1267,
+      "direction": "下调"
+    },
+    {
+      "param": "XM_修磨率",
+      "current": 0.0211,
+      "recommended": 0.012,
+      "direction": "下调"
+    },
+    {
+      "param": "QT_切头切尾",
+      "current": 1.2799,
+      "recommended": 1.0295,
+      "direction": "下调"
+    },
+    {
+      "param": "DC_定尺优化",
+      "current": 0.9155,
+      "recommended": 0.9644,
+      "direction": "上调"
+    },
+    {
+      "param": "GG_规格",
+      "current": 38.918,
+      "recommended": 11.5075,
+      "direction": "下调"
+    }
+  ],
+  "chart": {
+    "names": [
+      "X31",
+      "X32",
+      "X33",
+      "X34",
+      "X35",
+      "X36",
+      "JR_加热温度",
+      "ZL_在炉时间",
+      "KZ_开轧温度",
+      "ZZ_终轧温度",
+      "YX_总压下量",
+      "ZG_轧辊吨数",
+      "XM_修磨率",
+      "QT_切头切尾",
+      "DC_定尺优化",
+      "GG_规格"
+    ],
+    "before": [
+      0.5662,
+      0.4231,
+      0.385,
+      0.5791,
+      0.5141,
+      0.4544,
+      0.5297,
+      0.1827,
+      0.5346,
+      0.5009,
+      0.5607,
+      0.3871,
+      0.2775,
+      0.232,
+      0.6532,
+      0.2761
+    ],
+    "after": [
+      0.0014,
+      0.6449,
+      0.1806,
+      0.5734,
+      0.7855,
+      0.5221,
+      0.1252,
+      0.0,
+      0.0,
+      0.0013,
+      0.4923,
+      0.2607,
+      0.1556,
+      0.1318,
+      0.8611,
+      0.0313
+    ]
+  },
+  "time": "2026-11-02 11:29:29"
+}

@@ -1,0 +1,42 @@
+{
+  "id": "svr_86b82b43",
+  "algo": "svr",
+  "algo_label": "支持向量机",
+  "category": "ml",
+  "dataset": "成锭率_综合1000",
+  "features": [
+    "WS_MM",
+    "CS_MM",
+    "FS_MM",
+    "Mn_MM",
+    "CL_SM",
+    "Out_TE",
+    "S_EL",
+    "SN_QM",
+    "UD_QM",
+    "NI_QM",
+    "OE_QM",
+    "PO_QM",
+    "C_QM",
+    "SI_QM",
+    "GD_过热",
+    "LS_拉速",
+    "EQ_二冷水",
+    "LM_液面波动",
+    "ZW_中包温波",
+    "TP_铜板炉数",
+    "LB_钢包包龄",
+    "JX_检修后炉次",
+    "GZ_钢种",
+    "DM_断面",
+    "BC_班次"
+  ],
+  "target": "L",
+  "metrics": {
+    "mse": 0.000152,
+    "mae": 0.009927,
+    "r2": 0.8045,
+    "accuracy": 1.0
+  },
+  "created_at": "2026-11-02 11:24:27"
+}

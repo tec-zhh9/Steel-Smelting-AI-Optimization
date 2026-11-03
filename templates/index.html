@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>基于人工智能的钢铁冶炼工艺参数优化系统</title>
+<link rel="stylesheet" href="/static/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-title">基于人工智能的钢铁冶炼工艺参数优化系统</div>
+  <div class="topbar-right">
+    <span class="user-info">操作员：admin</span>
+    <button class="btn-logout" onclick="alert('已退出登录（演示）')">退出</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="menu-item active" data-page="home">系统首页</div>
+    <div class="menu-item" data-page="data">数据管理</div>
+    <div class="menu-item" data-page="train">模型训练</div>
+    <div class="menu-item" data-page="optimize">参数优化</div>
+  </aside>
+
+  <main class="content">
+
+    <section id="page-home" class="page active">
+      <h2 class="page-title">系统概览</h2>
+      <div class="stat-cards">
+        <div class="stat-card"><div class="stat-name">数据集总数</div><div class="stat-value" id="stat-datasets">-</div></div>
+        <div class="stat-card"><div class="stat-name">样本总数</div><div class="stat-value" id="stat-samples">-</div></div>
+        <div class="stat-card"><div class="stat-name">已训练模型数</div><div class="stat-value" id="stat-models">-</div></div>
+        <div class="stat-card"><div class="stat-name">优化方案数</div><div class="stat-value" id="stat-opts">-</div></div>
+      </div>
+      <h3 class="section-subtitle">快捷操作</h3>
+      <div class="quick-actions">
+        <button class="btn btn-primary" onclick="gotoPage('data')">上传数据集</button>
+        <button class="btn btn-primary" onclick="gotoPage('train')">创建模型</button>
+        <button class="btn btn-primary" onclick="gotoPage('optimize')">查看优化结果</button>
+      </div>
+    </section>
+
+    <section id="page-data" class="page">
+      <h2 class="page-title">数据管理</h2>
+
+      <div class="upload-area" id="upload-area">
+        <p>点击或拖拽上传数据集（支持 CSV 格式）</p>
+        <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">选择文件</button>
+        <input type="file" id="file-input" accept=".csv" style="display:none">
+        <div id="upload-info" class="upload-info"></div>
+      </div>
+
+      <div class="dataset-bar">
+        <label>当前数据集：</label>
+        <select id="dataset-select" onchange="loadPreview(1)"></select>
+        <span id="dataset-meta" class="dataset-meta"></span>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">数据预览（原始数据）</div>
+        <div class="table-wrap"><table id="preview-table"></table></div>
+        <div class="pagination">
+          <button class="btn btn-plain" onclick="prevPage()">上一页</button>
+          <span id="page-info">1 / 1</span>
+          <button class="btn btn-plain" onclick="nextPage()">下一页</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">数据清洗</div>
+        <div class="clean-layout">
+          <div class="clean-form">
+            <div class="form-row">
+              <label>缺失值处理</label>
+              <select id="clean-missing">
+                <option value="mean">均值填充</option>
+                <option value="median">中位数填充</option>
+                <option value="drop">删除该行</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label>异常值处理</label>
+              <span class="check-wrap"><input type="checkbox" id="clean-outliers"> 按 3σ 原则剔除异常值</span>
+            </div>
+            <div class="form-row">
+              <label>数据标准化</label>
+              <span class="check-wrap"><input type="checkbox" id="clean-standardize"> Z-Score 标准化</span>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-primary btn-100" onclick="runClean()">开始清洗</button>
+            </div>
+            <div class="clean-stats" id="clean-stats" style="display:none">
+              <div class="mini-card"><div class="stat-name">缺失值数量</div><div class="stat-value" id="clean-missing-count">-</div></div>
+              <div class="mini-card"><div class="stat-name">异常值数量</div><div class="stat-value" id="clean-outlier-count">-</div></div>
+              <div class="mini-card"><div class="stat-name">清洗后样本数</div><div class="stat-value" id="clean-rows">-</div></div>
+            </div>
+          </div>
+          <div class="clean-chart" id="clean-chart"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="page-train" class="page">
+      <h2 class="page-title">模型训练</h2>
+      <div class="tabs">
+        <div class="tab active" data-cat="ml">机器学习</div>
+        <div class="tab" data-cat="dl">深度学习</div>
+      </div>
+      <div class="train-layout">
+        <div class="train-config">
+          <div class="cfg-row"><label>数据集</label><select id="train-dataset"></select></div>
+          <div class="cfg-row"><label>算法选择</label><select id="train-algo"></select></div>
+          <div class="cfg-row"><label>训练轮数</label><input type="number" id="train-epochs" value="100" min="10" max="500"></div>
+          <div class="cfg-row"><label>学习率</label><input type="number" id="train-lr" value="0.01" step="0.001" min="0.0001"></div>
+          <div class="cfg-row"><label>测试集比例</label><input type="number" id="train-test" value="0.2" step="0.05" min="0.1" max="0.4"></div>
+          <button class="btn btn-primary btn-block" onclick="startTrain()">开始训练</button>
+        </div>
+        <div class="train-display">
+          <div class="progress-wrap" id="progress-wrap" style="display:none">
+            <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+            <div class="progress-text" id="progress-text">训练中 0%</div>
+          </div>
+          <div class="chart-box" id="loss-chart"></div>
+          <div class="metric-cards" id="metric-cards" style="display:none">
+            <div class="stat-card"><div class="stat-name">均方误差 MSE</div><div class="stat-value" id="m-mse">-</div></div>
+            <div class="stat-card"><div class="stat-name">平均绝对误差 MAE</div><div class="stat-value" id="m-mae">-</div></div>
+            <div class="stat-card"><div class="stat-name">决定系数 R²</div><div class="stat-value" id="m-r2">-</div></div>
+            <div class="stat-card"><div class="stat-name">准确率</div><div class="stat-value" id="m-acc">-</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="page-optimize" class="page">
+      <div class="opt-header">
+        <h2 class="page-title">工艺参数优化</h2>
+        <button class="btn btn-plain" onclick="fillCurrentParams()">输入当前参数</button>
+      </div>
+      <div class="opt-layout">
+        <div class="opt-form panel">
+          <div class="panel-header">当前工艺参数</div>
+          <div class="cfg-row"><label>使用模型</label><select id="opt-model"></select></div>
+          <div id="opt-inputs"></div>
+          <button class="btn btn-primary btn-block" onclick="runOptimize()">开始优化</button>
+        </div>
+        <div class="opt-result">
+          <div class="panel">
+            <div class="panel-header">优化前后对比（归一化）</div>
+            <div class="chart-box" id="opt-chart"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-header">推荐最优工艺参数组合 <span id="opt-summary" class="opt-summary"></span></div>
+            <div class="table-wrap"><table id="opt-table"></table></div>
+            <div class="export-row">
+              <button class="btn btn-primary" onclick="exportResult()">导出优化方案</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>
